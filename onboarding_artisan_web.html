@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document d'engagement — [NOM DU SERVICE]</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#f0ede8;color:#1a1a1a;padding:2rem 1rem;line-height:1.7}
+.page{max-width:780px;margin:0 auto;background:#fff;border-radius:16px;overflow:hidden;border:1px solid #e2e2e2}
+.doc-header{background:#1a1a1a;color:#fff;padding:2.5rem 3rem 2rem}
+.service-name{font-size:28px;font-weight:600;letter-spacing:-0.02em;margin-bottom:6px}
+.doc-subtitle{font-size:15px;opacity:0.6;margin-bottom:4px}
+.doc-meta{font-size:13px;opacity:0.45;font-family:'DM Mono',monospace;margin-top:8px}
+.doc-body{padding:2.5rem 3rem}
+.section{margin-bottom:2.5rem}
+.section-num{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:#aaa;margin-bottom:8px}
+.section-title{font-size:17px;font-weight:600;color:#1a1a1a;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #e8e8e4}
+.body-text{font-size:14px;color:#444;margin-bottom:10px;line-height:1.7}
+.bullet-list{margin:8px 0 8px 0;padding:0}
+.bullet-list li{font-size:14px;color:#444;line-height:1.7;padding:3px 0 3px 20px;position:relative;list-style:none}
+.bullet-list li::before{content:"—";position:absolute;left:0;color:#aaa;font-weight:500}
+.info-grid{display:grid;grid-template-columns:180px 1fr;gap:1px;background:#e8e8e4;border-radius:10px;overflow:hidden;margin:12px 0}
+.info-row{display:contents}
+.info-label{background:#f5f5f3;padding:10px 14px;font-size:13px;font-weight:600;color:#888}
+.info-val{background:#f5f5f3;padding:10px 14px;font-size:13px;color:#1a1a1a}
+.info-val.editable{background:#fff;border-bottom:1px solid #e2e2e2}
+.info-val input{width:100%;border:none;outline:none;font-size:13px;font-family:'DM Sans',sans-serif;color:#1a1a1a;background:transparent;padding:0}
+.highlight-box{background:#E6F1FB;border-left:3px solid #185FA5;border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0}
+.highlight-box p{font-size:13px;color:#0C447C;line-height:1.6;margin-bottom:4px}
+.highlight-box p:last-child{margin-bottom:0}
+.warning-box{background:#FFF7ED;border-left:3px solid #D97706;border-radius:0 8px 8px 0;padding:12px 16px;margin:12px 0}
+.warning-box p{font-size:13px;color:#633806;line-height:1.6;margin-bottom:4px}
+.warning-box p:last-child{margin-bottom:0}
+.code-block{background:#f5f5f3;border-radius:8px;padding:14px 18px;margin:12px 0;display:flex;gap:2rem;flex-wrap:wrap}
+.code-item{text-align:center}
+.code-label{font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px}
+.code-val{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;color:#185FA5}
+.code-val.red{color:#A32D2D}
+.sub-section{margin:16px 0 8px}
+.sub-title{font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:8px}
+.rule{border:none;border-top:1px solid #e8e8e4;margin:2rem 0}
+.reass-row{display:flex;gap:1rem;margin:12px 0;align-items:center}
+.reass-row label{font-size:14px;color:#444;cursor:pointer;display:flex;align-items:center;gap:8px}
+.reass-row input[type=radio]{width:16px;height:16px;accent-color:#1a1a1a;cursor:pointer}
+
+/* SIGNATURE SECTION */
+.sig-section{background:#fafaf8;border-top:1px solid #e8e8e4;padding:2.5rem 3rem}
+.sig-title{font-size:18px;font-weight:600;margin-bottom:6px}
+.sig-subtitle{font-size:13px;color:#888;margin-bottom:2rem}
+.sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem}
+.sig-block label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#888;display:block;margin-bottom:6px}
+.sig-block input[type=text]{width:100%;padding:10px 12px;border:1px solid #e2e2e2;border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;color:#1a1a1a;background:#fff;outline:none;transition:border-color 0.15s}
+.sig-block input:focus{border-color:#1a1a1a}
+.sig-block{margin-bottom:12px}
+.canvas-wrap{border:1px solid #e2e2e2;border-radius:8px;overflow:hidden;background:#fff;margin-top:4px}
+canvas{display:block;touch-action:none;cursor:crosshair}
+.canvas-actions{display:flex;justify-content:flex-end;padding:6px 8px;border-top:1px solid #f0f0ec;gap:8px}
+.btn-clear{font-size:12px;padding:4px 12px;border:1px solid #ddd;border-radius:6px;background:transparent;cursor:pointer;color:#888;font-family:'DM Sans',sans-serif}
+.btn-clear:hover{border-color:#aaa;color:#444}
+.sig-date{font-size:13px;color:#888;margin-top:8px}
+.sig-cta{text-align:center;margin-top:1.5rem}
+.btn-sign{padding:14px 32px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:background 0.15s;width:100%}
+.btn-sign:hover{background:#333}
+.btn-sign:disabled{background:#aaa;cursor:not-allowed}
+.sig-note{font-size:12px;color:#aaa;text-align:center;margin-top:10px}
+.esign-banner{background:#EAF3DE;border:1px solid #97C459;border-radius:10px;padding:14px 18px;text-align:center;display:none}
+.esign-banner p{font-size:14px;color:#145a2a;font-weight:500;margin-bottom:4px}
+.esign-banner span{font-size:12px;color:#3B6D11}
+.progress-bar{height:4px;background:#e2e2e2;border-radius:2px;margin:1.5rem 0;overflow:hidden}
+.progress-fill{height:100%;background:#1a1a1a;border-radius:2px;transition:width 0.3s;width:0%}
+@media(max-width:600px){.sig-grid{grid-template-columns:1fr}.doc-body,.doc-header,.sig-section{padding:1.5rem}.info-grid{grid-template-columns:120px 1fr}}
+@media print{body{background:#fff;padding:0}.page{border:none;border-radius:0}.sig-section .canvas-wrap,.sig-section .btn-sign,.sig-section .btn-clear,.canvas-actions{display:none}}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- EN-TÊTE -->
+  <div class="doc-header">
+    <div class="service-name">[NOM DU SERVICE]</div>
+    <div class="doc-subtitle">Document d'engagement — Artisan partenaire</div>
+    <div class="doc-meta">Paris · Version 1.0 · <span id="doc_date"></span></div>
+  </div>
+
+  <!-- CORPS DU DOCUMENT -->
+  <div class="doc-body">
+
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+    <!-- 1. PARTIES -->
+    <div class="section">
+      <div class="section-num">Section 1</div>
+      <div class="section-title">Les parties</div>
+      <p class="body-text">Le présent document formalise les conditions de collaboration entre :</p>
+      <div class="info-grid">
+        <div class="info-label">Le service</div><div class="info-val">[NOM DU SERVICE] — service d'assistance opérationnelle pour artisans</div>
+        <div class="info-label">L'artisan</div><div class="info-val editable"><input type="text" id="f_artisan" placeholder="Nom complet de l'artisan" oninput="updateProgress()"></div>
+        <div class="info-label">SIRET</div><div class="info-val editable"><input type="text" id="f_siret" placeholder="123 456 789 00012" oninput="updateProgress()"></div>
+        <div class="info-label">Spécialité</div><div class="info-val editable"><input type="text" id="f_specialite" placeholder="Plomberie / Chauffage / CVC" oninput="updateProgress()"></div>
+        <div class="info-label">Zone principale</div><div class="info-val editable"><input type="text" id="f_zone" placeholder="ex : 11e, 12e, 13e arrondissement" oninput="updateProgress()"></div>
+        <div class="info-label">Téléphone</div><div class="info-val editable"><input type="text" id="f_tel" placeholder="06 XX XX XX XX" oninput="updateProgress()"></div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- 2. CE QU'EST LE SERVICE -->
+    <div class="section">
+      <div class="section-num">Section 2</div>
+      <div class="section-title">Ce qu'est le service</div>
+      <p class="body-text">Le service assure, pour le compte de l'artisan, les missions suivantes :</p>
+      <ul class="bullet-list">
+        <li>Réponse aux appels entrants pendant les indisponibilités (via transfert automatique)</li>
+        <li>Qualification des demandes client : type d'intervention, urgence, localisation</li>
+        <li>Proposition d'un créneau selon le planning de l'artisan</li>
+        <li>Envoi d'un résumé de mission par WhatsApp à l'artisan</li>
+        <li>Création automatique d'un événement Google Calendar</li>
+        <li>Préparation de devis simples pour les interventions standardisées</li>
+        <li>Gestion de la communication client en cas d'imprévu ou de retard</li>
+      </ul>
+      <div class="highlight-box">
+        <p>Le client final pense parler au secrétariat de l'artisan.</p>
+        <p>Le service ne se présente jamais comme un intermédiaire commercial.</p>
+        <p>L'artisan reste l'unique prestataire aux yeux du client.</p>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- 3. CE QUE CE N'EST PAS -->
+    <div class="section">
+      <div class="section-num">Section 3</div>
+      <div class="section-title">Ce que le service n'est pas</div>
+      <ul class="bullet-list">
+        <li>Une marketplace ou une plateforme visible du client final</li>
+        <li>Un décideur technique — les choix d'intervention restent à l'artisan</li>
+        <li>Un garant de la qualité des travaux réalisés</li>
+        <li>Un service de facturation ou de recouvrement client</li>
+        <li>Un responsable des dégâts causés pendant les interventions</li>
+      </ul>
+    </div>
+
+    <hr class="rule">
+
+    <!-- 4. TRANSFERT D'APPEL -->
+    <div class="section">
+      <div class="section-num">Section 4</div>
+      <div class="section-title">Mise en place du transfert d'appel</div>
+      <p class="body-text">L'artisan active le transfert d'appel sur non-réponse (après 4 sonneries) :</p>
+      <div class="code-block">
+        <div class="code-item">
+          <div class="code-label">Activation</div>
+          <div class="code-val">##21*[numéro]#</div>
+        </div>
+        <div class="code-item">
+          <div class="code-label">Désactivation</div>
+          <div class="code-val red">##61#</div>
+        </div>
+      </div>
+      <ul class="bullet-list">
+        <li>Un rappel WhatsApp est envoyé chaque matin avant 8h (activation) et chaque soir (désactivation)</li>
+        <li>L'artisan confirme par O ou N dans les 15 minutes</li>
+        <li>Plage de couverture : 8h–18h, midi inclus</li>
+        <li>Hors plage : les appels basculent sur la messagerie personnelle de l'artisan</li>
+      </ul>
+    </div>
+
+    <hr class="rule">
+
+    <!-- 5. ENGAGEMENTS -->
+    <div class="section">
+      <div class="section-num">Section 5</div>
+      <div class="section-title">Engagements de l'artisan</div>
+
+      <div class="sub-section"><div class="sub-title">5.1 Disponibilité et réponse</div></div>
+      <ul class="bullet-list">
+        <li>Confirmer chaque mission assignée par WhatsApp dans les 2 heures</li>
+        <li>Signaler immédiatement tout retard ou empêchement, sans attendre</li>
+        <li>Honorer les créneaux confirmés — toute absence non signalée est enregistrée dans le score</li>
+        <li>Activer et désactiver le transfert selon les rappels quotidiens</li>
+      </ul>
+
+      <div class="sub-section"><div class="sub-title">5.2 Relation client</div></div>
+      <ul class="bullet-list">
+        <li>Ne jamais mentionner l'existence du service au client final</li>
+        <li>Expliquer ce qui est réalisé, avant et après l'intervention</li>
+        <li>Ne jamais réaliser de travaux supplémentaires sans accord verbal explicite du client</li>
+        <li>Remonter tout retour négatif client au service dans les 24 heures</li>
+      </ul>
+
+      <div class="sub-section"><div class="sub-title">5.3 Facturation</div></div>
+      <ul class="bullet-list">
+        <li>Appliquer les tarifs communiqués au client lors de la prise de contact</li>
+        <li>Tout dépassement de prix doit être signalé au client avant réalisation</li>
+        <li>Transmettre le prix réel d'intervention au service dans les 48h suivant la mission</li>
+        <li>Disposer d'une assurance RC Pro valide — attestation à fournir au service</li>
+      </ul>
+    </div>
+
+    <hr class="rule">
+
+    <!-- 6. MODÈLE ÉCONOMIQUE -->
+    <div class="section">
+      <div class="section-num">Section 6</div>
+      <div class="section-title">Modèle économique</div>
+
+      <div class="sub-section"><div class="sub-title">6.1 Forfait mensuel</div></div>
+      <p class="body-text">Couvre l'organisation : réponse aux appels, planning, rappels, WhatsApp, Calendar.</p>
+      <div class="info-grid">
+        <div class="info-label">Montant</div><div class="info-val">[ ___ ] € HT / mois</div>
+        <div class="info-label">Facturation</div><div class="info-val">Mensuelle, le 1er de chaque mois</div>
+        <div class="info-label">Phase lancement</div><div class="info-val">2 semaines sans forfait — commission uniquement</div>
+      </div>
+
+      <div class="sub-section"><div class="sub-title">6.2 Commission de captation</div></div>
+      <p class="body-text">Applicable uniquement sur les missions captées via le transfert pour un nouveau client.</p>
+      <div class="info-grid">
+        <div class="info-label">Taux</div><div class="info-val">[ ___ ] % du montant HT de l'intervention</div>
+        <div class="info-label">Déclencheur</div><div class="info-val">Nouveau client + appel intercepté via transfert</div>
+        <div class="info-label">Exclusions</div><div class="info-val">Clients existants, appels directs non transférés</div>
+      </div>
+      <div class="warning-box">
+        <p>La commission s'applique si le client capté via le service recontacte directement l'artisan dans les 12 mois suivant la première mise en relation.</p>
+        <p>Cette clause est essentielle à la viabilité du modèle et est acceptée par la signature du présent document.</p>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- 7. RÉSEAU -->
+    <div class="section">
+      <div class="section-num">Section 7</div>
+      <div class="section-title">Réseau de mutualisation</div>
+      <p class="body-text">Quand l'artisan ne peut pas prendre une mission, le service peut la rediriger vers un autre artisan du réseau. En contrepartie, l'artisan peut recevoir des missions refusées par ses pairs.</p>
+      <p class="body-text">Règles non négociables : jamais sur un client historique — accord préalable explicite — logique réciproque uniquement.</p>
+      <div class="reass-row">
+        <span class="body-text" style="margin:0">L'artisan accepte la réassignation :</span>
+        <label><input type="radio" name="reass" value="oui"> Oui</label>
+        <label><input type="radio" name="reass" value="non"> Non</label>
+      </div>
+      <p class="body-text" style="color:#888;font-size:13px">Un artisan qui refuse la réassignation ne bénéficie pas du réseau en retour.</p>
+    </div>
+
+    <hr class="rule">
+
+    <!-- 8. SCORING -->
+    <div class="section">
+      <div class="section-num">Section 8</div>
+      <div class="section-title">Scoring et suivi qualité</div>
+      <ul class="bullet-list">
+        <li>Taux de présence aux interventions confirmées (50 %)</li>
+        <li>Délai moyen de confirmation des missions (20 %)</li>
+        <li>Taux d'interventions sans litige (30 %)</li>
+      </ul>
+      <p class="body-text" style="color:#888;margin-top:10px">Un rapport mensuel est transmis à l'artisan. Un score en baisse déclenche une période d'observation de 30 jours avant toute décision de suspension.</p>
+    </div>
+
+    <hr class="rule">
+
+    <!-- 9. RÉSILIATION -->
+    <div class="section">
+      <div class="section-num">Section 9</div>
+      <div class="section-title">Résiliation</div>
+      <ul class="bullet-list">
+        <li>Préavis de 15 jours pour chacune des parties</li>
+        <li>Résiliation immédiate en cas de manquement grave (absences répétées, fraude, violation de confidentialité)</li>
+        <li>La clause commission sur clients captés reste applicable 12 mois après résiliation</li>
+        <li>L'artisan récupère intégralement sa relation client à la résiliation</li>
+      </ul>
+    </div>
+
+    <hr class="rule">
+
+    <!-- 10. CONFIDENTIALITÉ -->
+    <div class="section">
+      <div class="section-num">Section 10</div>
+      <div class="section-title">Confidentialité</div>
+      <p class="body-text">Les deux parties s'engagent à ne pas divulguer les informations opérationnelles, tarifaires ou commerciales issues de cette collaboration. L'existence du service ne doit pas être mentionnée auprès des clients finaux.</p>
+    </div>
+
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="sig-section">
+    <div class="sig-title">Signatures</div>
+    <div class="sig-subtitle">Les deux parties reconnaissent avoir lu et accepté l'intégralité du présent document. Pour une signature électronique via DocuSign ou Yousign, utilisez le document PDF joint.</div>
+
+    <div class="sig-grid">
+      <div>
+        <div class="sub-title" style="margin-bottom:12px">[NOM DU SERVICE]</div>
+        <div class="sig-block"><label>Représentant</label><input type="text" id="sig_service_nom" placeholder="Votre nom" oninput="updateProgress()"></div>
+        <div class="sig-block">
+          <label>Signature manuscrite</label>
+          <div class="canvas-wrap">
+            <canvas id="canvas_service" width="320" height="100"></canvas>
+            <div class="canvas-actions"><button class="btn-clear" onclick="clearCanvas('canvas_service')">Effacer</button></div>
+          </div>
+        </div>
+        <div class="sig-date" id="date_service"></div>
+      </div>
+      <div>
+        <div class="sub-title" style="margin-bottom:12px">L'artisan</div>
+        <div class="sig-block"><label>Nom complet</label><input type="text" id="sig_artisan_nom" placeholder="Nom de l'artisan" oninput="updateProgress()"></div>
+        <div class="sig-block">
+          <label>Signature manuscrite</label>
+          <div class="canvas-wrap">
+            <canvas id="canvas_artisan" width="320" height="100"></canvas>
+            <div class="canvas-actions"><button class="btn-clear" onclick="clearCanvas('canvas_artisan')">Effacer</button></div>
+          </div>
+        </div>
+        <div class="sig-date" id="date_artisan"></div>
+      </div>
+    </div>
+
+    <div class="sig-cta">
+      <button class="btn-sign" id="btn_sign" onclick="finaliserSignature()">Valider et finaliser le document</button>
+      <p class="sig-note">En cliquant, vous confirmez avoir lu et accepté l'intégralité des conditions ci-dessus.</p>
+    </div>
+
+    <div class="esign-banner" id="esign_banner">
+      <p>Document validé — <span id="esign_date"></span></p>
+      <span>Pour une valeur légale renforcée, transmettez ce document via DocuSign ou Yousign.</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Date
+const now = new Date();
+document.getElementById('doc_date').textContent = now.toLocaleDateString('fr-FR', {month:'long',year:'numeric'});
+document.getElementById('date_service').textContent = 'Date : ' + now.toLocaleDateString('fr-FR');
+document.getElementById('date_artisan').textContent = 'Date : ' + now.toLocaleDateString('fr-FR');
+
+// Progress
+function updateProgress(){
+  const fields = ['f_artisan','f_siret','f_specialite','f_zone','f_tel','sig_service_nom','sig_artisan_nom'];
+  const filled = fields.filter(id => document.getElementById(id)?.value?.trim()).length;
+  const pct = Math.round((filled / fields.length) * 100);
+  document.getElementById('progress').style.width = pct + '%';
+}
+updateProgress();
+
+// Canvas signatures
+function initCanvas(id){
+  const canvas = document.getElementById(id);
+  const ctx = canvas.getContext('2d');
+  ctx.strokeStyle = '#1a1a1a';
+  ctx.lineWidth = 2;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  let drawing = false, lx = 0, ly = 0;
+
+  function getPos(e){
+    const r = canvas.getBoundingClientRect();
+    const src = e.touches ? e.touches[0] : e;
+    return { x: src.clientX - r.left, y: src.clientY - r.top };
+  }
+  function start(e){ e.preventDefault(); drawing=true; const p=getPos(e); lx=p.x; ly=p.y; }
+  function move(e){ e.preventDefault(); if(!drawing) return; const p=getPos(e); ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(p.x,p.y); ctx.stroke(); lx=p.x; ly=p.y; }
+  function stop(){ drawing=false; }
+
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', stop);
+  canvas.addEventListener('mouseleave', stop);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', stop);
+}
+
+function clearCanvas(id){
+  const canvas = document.getElementById(id);
+  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+}
+
+initCanvas('canvas_service');
+initCanvas('canvas_artisan');
+
+// Finaliser
+function finaliserSignature(){
+  const artisan = document.getElementById('f_artisan')?.value?.trim() || document.getElementById('sig_artisan_nom')?.value?.trim();
+  if(!artisan){
+    alert('Merci de renseigner le nom de l\'artisan dans la section 1 ou dans le bloc signature.');
+    return;
+  }
+  const dateStr = now.toLocaleDateString('fr-FR', {day:'2-digit',month:'long',year:'numeric'});
+  document.getElementById('esign_date').textContent = dateStr + ' à ' + now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('esign_banner').style.display = 'block';
+  document.getElementById('btn_sign').disabled = true;
+  document.getElementById('btn_sign').textContent = 'Document validé';
+  document.getElementById('progress').style.width = '100%';
+}
+</script>
+</body>
+</html>
